@@ -12,21 +12,23 @@ const mongoose = require("mongoose");
 
 const sortLinkRoute = require("./routes/sortLinkRoute");
 const shortLinkServiceRoute = require("./routes/shortLinkServiceRoute");
+const userRoutes = require("./routes/usersRoutes");
 const app = express();
-
+const cors = require("cors");
 /**====================================
  * ? Middleware
 =======================================*/
 app.use(express.json());
+app.use(cors());
 
 /**====================================
  * ? Routes
 =======================================*/
 app.use("/api/links", sortLinkRoute);
 app.use("/short", shortLinkServiceRoute);
+app.use("/api/users", userRoutes);
 // app.use("/api/todo", todoRoutes);
 // app.use("/api/lists", listRoutes);
-// app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => res.json({ hello: "Hello World!" }));
 

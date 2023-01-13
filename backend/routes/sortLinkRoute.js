@@ -5,8 +5,10 @@ const {
   updateShortLink,
   deleteShortLink,
 } = require("../controllers/shortLinkControllers");
+const requireAuth = require("../middlewares/requireAuth");
 const router = express.Router();
 
+router.use(requireAuth);
 // get all short links
 router.get("/", getAllShortLink);
 // get all short links

@@ -8,7 +8,8 @@ const shortLinkControllers = {};
 // get all short links
 shortLinkControllers.getAllShortLink = async (req, res) => {
   try {
-    const allLinks = await shortLinkModel.find({});
+    const user_id = await req.user._id;
+    const allLinks = await shortLinkModel.find({ user_id });
     res.status(200).json(allLinks);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -19,11 +20,15 @@ shortLinkControllers.getAllShortLink = async (req, res) => {
 shortLinkControllers.createShortLink = async (req, res) => {
   try {
     const { original_url } = await req.body;
+    const user_id = await req.user._id;
     // check if it is a valid url
     if (!validator.isURL(original_url)) {
       return res.status(400).json({ error: "invalid URL input" });
     }
-    const shortUrlObject = await shortLinkModel.create({ original_url });
+    const shortUrlObject = await shortLinkModel.create({
+      original_url,
+      user_id,
+    });
     res.status(200).json(shortUrlObject);
   } catch (error) {
     res.status(400).json({ error: error.message });
